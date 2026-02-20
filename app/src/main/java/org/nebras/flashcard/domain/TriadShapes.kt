@@ -68,9 +68,43 @@ private val minorSecond = TriadShape(
     )
 )
 
+private val dimRoot = TriadShape(
+    quality = ChordQuality.DIMINISHED,
+    inversion = Inversion.ROOT,
+    stringGroup = StringGroup.GBE,
+    dots = listOf(
+        ShapeDot(string = 3, relativeOffset = 3, intervalLabel = "R"),
+        ShapeDot(string = 2, relativeOffset = 2, intervalLabel = "♭3"),
+        ShapeDot(string = 1, relativeOffset = 0, intervalLabel = "♭5")
+    )
+)
+
+private val dimFirst = TriadShape(
+    quality = ChordQuality.DIMINISHED,
+    inversion = Inversion.FIRST,
+    stringGroup = StringGroup.GBE,
+    dots = listOf(
+        ShapeDot(string = 3, relativeOffset = 1, intervalLabel = "♭3"),
+        ShapeDot(string = 2, relativeOffset = 0, intervalLabel = "♭5"),
+        ShapeDot(string = 1, relativeOffset = 1, intervalLabel = "R")
+    )
+)
+
+private val dimSecond = TriadShape(
+    quality = ChordQuality.DIMINISHED,
+    inversion = Inversion.SECOND,
+    stringGroup = StringGroup.GBE,
+    dots = listOf(
+        ShapeDot(string = 3, relativeOffset = 0, intervalLabel = "♭5"),
+        ShapeDot(string = 2, relativeOffset = 2, intervalLabel = "R"),
+        ShapeDot(string = 1, relativeOffset = 0, intervalLabel = "♭3")
+    )
+)
+
 private val allTriadShapes = listOf(
     majorRoot, majorFirst, majorSecond,
-    minorRoot, minorFirst, minorSecond
+    minorRoot, minorFirst, minorSecond,
+    dimRoot, dimFirst, dimSecond
 )
 
 fun triadShapes321Deck(): Deck = Deck(

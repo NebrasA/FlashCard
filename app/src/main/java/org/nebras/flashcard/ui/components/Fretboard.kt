@@ -28,7 +28,7 @@ fun Fretboard(
     val fretColor = if (isDark) Color(0xFF9E9E9E) else Color(0xFF757575)
     val nutColor = if (isDark) Color(0xFFE0E0E0) else Color(0xFF212121)
     val rootDotColor = Color(0xFFE53935)
-    val intervalDotColor = if (isDark) Color(0xFF90CAF9) else Color(0xFF1565C0)
+    val intervalDotColor = if (isDark) Color(0xFF42A5F5) else Color(0xFF0D47A1)
     val fretNumberColor = if (isDark) Color(0xFF9E9E9E) else Color(0xFF757575)
     val textMeasurer = rememberTextMeasurer()
 
@@ -98,11 +98,7 @@ fun Fretboard(
 
         // Draw dots with interval labels
         val dotRadius = minOf(stringSpacing, fretSpacing) * 0.28f
-        val dotLabelSizeSp = (dotRadius * 0.9f / density).sp
-        val dotLabelStyle = TextStyle(
-            color = Color.White,
-            fontSize = dotLabelSizeSp
-        )
+        val baseLabelSize = dotRadius * 0.9f / density
         for (dot in dots) {
             val stringIndex = dot.string - 1  // 1-based to 0-based
             val y = fretboardTop + stringIndex * stringSpacing
@@ -124,7 +120,16 @@ fun Fretboard(
             )
 
             if (dot.label.isNotEmpty()) {
-                val labelLayout = textMeasurer.measure(dot.label, dotLabelStyle)
+                val scaleFactor = when {
+                    dot.label.length <= 2 -> 1.0f
+                    dot.label.length <= 4 -> 0.65f
+                    else -> 0.5f
+                }
+                val labelStyle = TextStyle(
+                    color = Color.White,
+                    fontSize = (baseLabelSize * scaleFactor).sp
+                )
+                val labelLayout = textMeasurer.measure(dot.label, labelStyle)
                 drawText(
                     textLayoutResult = labelLayout,
                     topLeft = Offset(
