@@ -1,3 +1,5 @@
 package org.nebras.flashcard.domain
 
-enum class ChordQuality { MAJOR, MINOR, DIMINISHED }
+enum class ChordQuality(val displayName: String) {
+    MAJOR("Major"), MINOR("Minor"), DIMINISHED("Diminished")
+}

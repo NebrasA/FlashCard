@@ -8,10 +8,13 @@ import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -46,6 +49,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import org.nebras.flashcard.data.CardContent
+import org.nebras.flashcard.ui.components.Fretboard
 import org.nebras.flashcard.ui.theme.AnswerCardDark
 import org.nebras.flashcard.ui.theme.AnswerCardLight
 import org.nebras.flashcard.ui.theme.QuestionCardDark
@@ -210,14 +215,53 @@ fun StudyScreen(
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = if (showingAnswer) currentCard.answer else currentCard.question,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(32.dp),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineLarge
-                    )
+                    if (showingAnswer && currentCard.answerContent != null) {
+                        when (val content = currentCard.answerContent!!) {
+                            is CardContent.FretboardDiagram -> {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = content.textLabel,
+                                        textAlign = TextAlign.Center,
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    Fretboard(
+                                        dots = content.dots,
+                                        startFret = content.startFret,
+                                        fretCount = content.fretCount,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .weight(1f)
+                                    )
+                                }
+                            }
+                            is CardContent.Text -> {
+                                Text(
+                                    text = content.value,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(32.dp),
+                                    textAlign = TextAlign.Center,
+                                    style = MaterialTheme.typography.headlineLarge
+                                )
+                            }
+                        }
+                    } else {
+                        Text(
+                            text = if (showingAnswer) currentCard.answer else currentCard.question,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(32.dp),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+                    }
                 }
             }
         }
