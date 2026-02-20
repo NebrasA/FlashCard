@@ -37,10 +37,10 @@ fun Fretboard(
         val height = size.height
 
         // Layout: left-handed = nut on RIGHT side
-        val marginLeft = width * 0.08f
-        val marginRight = width * 0.06f
-        val marginTop = height * 0.10f
-        val marginBottom = height * 0.18f
+        val marginLeft = width * 0.04f
+        val marginRight = width * 0.03f
+        val marginTop = height * 0.14f
+        val marginBottom = height * 0.22f
 
         val fretboardLeft = marginLeft
         val fretboardRight = width - marginRight
