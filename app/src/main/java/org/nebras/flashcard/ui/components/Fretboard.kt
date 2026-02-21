@@ -18,10 +18,10 @@ import org.nebras.flashcard.data.FretboardDot
 
 @Composable
 fun Fretboard(
+    modifier: Modifier = Modifier,
     dots: List<FretboardDot>,
     startFret: Int = 0,
     fretCount: Int = 5,
-    modifier: Modifier = Modifier
 ) {
     val isDark = isSystemInDarkTheme()
     val stringColor = if (isDark) Color(0xFFBDBDBD) else Color(0xFF616161)
@@ -37,7 +37,7 @@ fun Fretboard(
         val height = size.height
 
         // Layout: left-handed = nut on RIGHT side
-        val marginLeft = width * 0.04f
+        val marginLeft = width * 0.08f
         val marginRight = width * 0.03f
         val marginTop = height * 0.14f
         val marginBottom = height * 0.22f
@@ -61,6 +61,24 @@ fun Fretboard(
                 start = Offset(fretboardLeft, y),
                 end = Offset(fretboardRight, y),
                 strokeWidth = 2f + i * 0.5f
+            )
+        }
+
+        // Draw string name labels on the left (high E at top, low E at bottom)
+        val stringNames = listOf("E", "B", "G", "D", "A", "E")
+        val stringLabelStyle = TextStyle(
+            color = fretNumberColor,
+            fontSize = 11.sp
+        )
+        for (i in 0 until stringCount) {
+            val y = fretboardTop + i * stringSpacing
+            val labelLayout = textMeasurer.measure(stringNames[i], stringLabelStyle)
+            drawText(
+                textLayoutResult = labelLayout,
+                topLeft = Offset(
+                    x = fretboardLeft - labelLayout.size.width - 8f,
+                    y = y - labelLayout.size.height / 2f
+                )
             )
         }
 
